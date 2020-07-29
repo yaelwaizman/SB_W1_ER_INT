@@ -127,17 +127,17 @@ comparisons_female_percent <- (comparisons_female_n/length(comparisons$Gender))*
 
 ##### Ethnicity count per group
 
-# African America/Black = 1
-AAB_PIs_n <- length(which(PIs$Ethnicity == 1)) # number of African America/Black participants in PI group
-AAB_PIs_percent <- (AAB_PIs_n/length(PIs$Ethnicity))*100 # percent of African America/Black participants in PI group
-AAB_comparisons_n <- length(which(comparisons$Ethnicity == 1)) # number of African America/Black participants in Comparison group
-AAB_comparisons_percent <- (AAB_comparisons_n/length(comparisons$Ethnicity))*100 # percent of African America/Black participants in Comparison group
+# African American/Black = 1
+AAB_PIs_n <- length(which(PIs$Ethnicity == 1)) # number of African American/Black participants in PI group
+AAB_PIs_percent <- (AAB_PIs_n/length(PIs$Ethnicity))*100 # percent of African American/Black participants in PI group
+AAB_comparisons_n <- length(which(comparisons$Ethnicity == 1)) # number of African American/Black participants in Comparison group
+AAB_comparisons_percent <- (AAB_comparisons_n/length(comparisons$Ethnicity))*100 # percent of African American/Black participants in Comparison group
 
-# Asian/Asian-American = 3
-AAA_PIs_n <- length(which(PIs$Ethnicity == 3)) # number of Asian/Asian-American participants in PI group
-AAA_PIs_percent <- (AAA_PIs_n/length(PIs$Ethnicity))*100 # percent of Asian/Asian-American participants in PI group
-AAA_comparisons_n <- length(which(comparisons$Ethnicity == 3)) # number of Asian/Asian-American participants in Comparison group
-AAA_comparisons_percent <- (AAA_comparisons_n/length(comparisons$Ethnicity))*100 # percent of Asian/Asian-American participants in Comparison group
+# Asian-American/Asian = 3
+AAA_PIs_n <- length(which(PIs$Ethnicity == 3)) # number of Asian-American/Asian participants in PI group
+AAA_PIs_percent <- (AAA_PIs_n/length(PIs$Ethnicity))*100 # percent of Asian-American/Asian participants in PI group
+AAA_comparisons_n <- length(which(comparisons$Ethnicity == 3)) # number of Asian-American/Asian participants in Comparison group
+AAA_comparisons_percent <- (AAA_comparisons_n/length(comparisons$Ethnicity))*100 # percent of Asian-American/Asian participants in Comparison group
 
 # European-American/Caucasian = 5 
 EAC_PIs_n <- length(which(PIs$Ethnicity == 5)) # number of European-American/Caucasian participants in PI group
@@ -150,6 +150,24 @@ HL_PIs_n <- length(which(PIs$Ethnicity == 6)) # number of Hispanic/Latino partic
 HL_PIs_percent <- (HL_PIs_n/length(PIs$Ethnicity))*100 # percent of Hispanic/Latino participants in PI group
 HL_comparisons_n <- length(which(comparisons$Ethnicity == 6)) # number of Hispanic/Latino participants in Comparison group
 HL_comparisons_percent <- (HL_comparisons_n/length(comparisons$Ethnicity))*100 # percent of Hispanic/Latino participants in Comparison group
+
+# Other = 7
+Other_PIs_n <- length(which(PIs$Ethnicity == 7)) # number of Other participants in PI group
+Other_PIs_percent <- (Other_PIs_n/length(PIs$Ethnicity))*100 # percent of Other participants in PI group
+Other_comparisons_n <- length(which(comparisons$Ethnicity == 7)) # number of Other participants in Comparison group
+Other_comparisons_percent <- (Other_comparisons_n/length(comparisons$Ethnicity))*100 # percent of Other participants in Comparison group
+
+# Mixed = 8
+Mix_PIs_n <- length(which(PIs$Ethnicity == 8)) # number of Mixed participants in PI group
+Mix_PIs_percent <- (Mix_PIs_n/length(PIs$Ethnicity))*100 # percent of Mixed participants in PI group
+Mix_comparisons_n <- length(which(comparisons$Ethnicity == 8)) # number of Mixed participants in Comparison group
+Mix_comparisons_percent <- (Mix_comparisons_n/length(comparisons$Ethnicity))*100 # percent of Mixed participants in Comparison group
+
+#Unknown/Not Specified = 0 
+NA_PIs_n <- length(which(PIs$Ethnicity == 0)) # number of Unknown/Not Specified participants in PI group
+NA_PIs_percent <- (NA_PIs_n/length(PIs$Ethnicity))*100 # percent of Unknown/Not Specified participants in PI group
+NA_comparisons_n <- length(which(comparisons$Ethnicity == 0)) # number of Unknown/Not Specified participants in Comparison group
+NA_comparisons_percent <- (NA_comparisons_n/length(comparisons$Ethnicity))*100 # percent of Unknown/Not Specified participants in Comparison group
 
 ##### Parental Education count per group
 
@@ -206,4 +224,3 @@ NPEL_PIs_n <- length(which(is.na(PIs$Parental_education))) # number of PI partic
 NPEL_PIs_percent <- (NPEL_PIs_n/length(PIs$Parental_education))*100 # percent of PI participants whose parents parental education level is No parental education listed
 NPEL_comparisons_n <- length(which(is.na(comparisons$Parental_education))) # number of comparison participants whose parents parental education level is No parental education listed
 NPEL_comparisons_percent <- (NPEL_comparisons_n/length(comparisons$Parental_education))*100 # percent of comparison participants whose parents parental education level is No parental education listed
-
