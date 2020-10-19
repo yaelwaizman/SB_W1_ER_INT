@@ -1,13 +1,13 @@
 ########################################################################################## 
-# Child Behavior Checklist for Ages 6-18 (CBCL/6-18) scoring
-# Script written by Adriana S. Mendez Leal and Yael H. Waizman
+#Child Behavior Checklist for Ages 6-18 (CBCL/6-18) scoring
+#Created by Adriana Mendez Leal and Yael Waizman
 ########################################################################################## 
 
 CBCL_scoring_SB <- function(dataframe,t_score_table){
   
   dataframe$CBCL_2_TEXT <- as.character(dataframe$CBCL_2_TEXT)
   dataframe$CBCL_40_TEXT <- as.character(dataframe$CBCL_40_TEXT)
-  dataframe$CBCL_56_D_TEXT <- as.integer(dataframe$CBCL_56_D_TEXT)
+  dataframe$CBCL_56_D_TEXT <- as.character(dataframe$CBCL_56_D_TEXT)
   dataframe$CBCL_66_TEXT <- as.character(dataframe$CBCL_66_TEXT)
   dataframe$CBCL_85_TEXT <- as.character(dataframe$CBCL_85_TEXT)
   dataframe$CBCL_113_B_TEXT <- as.character(dataframe$CBCL_113_B_TEXT)
@@ -156,11 +156,17 @@ CBCL_scoring_SB <- function(dataframe,t_score_table){
 
   # (1) Internalizing (Total of Anxious/Depressed, Withdrawn/Depressed, and Somatic Complaints items)
   CBCL_anxious_all <- attach_q_prefix('CBCL',c(14,29,30,31,32,33,35,45,50,52,71,91,112))
-  dataframe$CBCL_ANX_DEP <- rowSums(dataframe[,CBCL_anxious_all],na.rm = TRUE)
+  dataframe$CBCL_ANX_DEP_TOT <- rowSums(dataframe[,CBCL_anxious_all],na.rm = TRUE)
+  ###Get CBCL Anxious/Depressed scale T-score
+  dataframe$CBCL_ANX_DEP_TSCORE <- CBCL_ANX_DEP_TSCORE(dataframe$CBCL_CHILD_GENDER, dataframe$CBCL_CHILD_AGE_CAT, dataframe$CBCL_ANX_DEP_TOT) #uses CBCL_ASR_subscale_tscores_funcs
   CBCL_withdrawn_all <-  attach_q_prefix('CBCL',c(5,42,65,69,75,102,103,111))
-  dataframe$CBCL_WITHDRAWN <- rowSums(dataframe[,CBCL_withdrawn_all],na.rm = TRUE)
+  dataframe$CBCL_WITHDRAWN_TOT <- rowSums(dataframe[,CBCL_withdrawn_all],na.rm = TRUE)
+  ###Get CBCL Withdrawn scale T-score
+  dataframe$CBCL_WITHDRAWN_TSCORE <- CBCL_WITHDRAWN_TSCORE(dataframe$CBCL_CHILD_GENDER, dataframe$CBCL_CHILD_AGE_CAT, dataframe$CBCL_WITHDRAWN_TOT) #uses CBCL_ASR_subscale_tscores_funcs
   CBCL_somatic_all <- attach_q_prefix('CBCL',c(47,49,51,54,'56_A','56_B','56_C','56_D','56_E','56_F','56_G'))
-  dataframe$CBCL_SOM <- rowSums(dataframe[,CBCL_somatic_all],na.rm = TRUE)
+  dataframe$CBCL_SOM_TOT <- rowSums(dataframe[,CBCL_somatic_all],na.rm = TRUE)
+  ###Get CBCL Somatic Complaints scale T-score
+  dataframe$CBCL_SOM_TSCORE <- CBCL_SOM_TSCORE(dataframe$CBCL_CHILD_GENDER, dataframe$CBCL_CHILD_AGE_CAT, dataframe$CBCL_SOM_TOT) #uses CBCL_ASR_subscale_tscores_funcs
   
   # calculates internalizing total score only if no more than 8 items are missing 
   dataframe$CBCL_INT_TOTAL <- compute_tot_scores_for_valid_entries (dataframe[,c(CBCL_anxious_all,CBCL_withdrawn_all,CBCL_somatic_all)],
@@ -168,9 +174,13 @@ CBCL_scoring_SB <- function(dataframe,t_score_table){
 
   # (2) Externalizing (Total of Rule-Breaking Behavior, Aggressive Behavior)
   CBCL_rule_breaking_all = attach_q_prefix('CBCL',c(2,26,28,39,43,63,67,72,73,81,82,90,96,99,101,105,106))
-  dataframe$CBCL_RULE_BREAKING <- rowSums(dataframe[,CBCL_rule_breaking_all],na.rm = TRUE)
+  dataframe$CBCL_RULE_BREAKING_TOT <- rowSums(dataframe[,CBCL_rule_breaking_all],na.rm = TRUE)
+  ###Get CBCL Rule Breaking scale T-score
+  dataframe$CBCL_RULE_BREAKING_TSCORE <- CBCL_RULE_BREAKING_TSCORE(dataframe$CBCL_CHILD_GENDER, dataframe$CBCL_CHILD_AGE_CAT, dataframe$CBCL_RULE_BREAKING_TOT) #uses CBCL_ASR_subscale_tscores_funcs
   CBCL_aggressive_all = attach_q_prefix('CBCL',c(3,16,19,20,21,22,23,37,57,68,86,87,88,89,94,95,97,104))
-  dataframe$CBCL_AGGRESSIVE <- rowSums(dataframe[,CBCL_aggressive_all],na.rm = TRUE)
+  dataframe$CBCL_AGGRESSIVE_TOT <- rowSums(dataframe[,CBCL_aggressive_all],na.rm = TRUE)
+  ###Get CBCL Rule Breaking scale T-score
+  dataframe$CBCL_AGGRESSIVE_TSCORE <- CBCL_AGGRESSIVE_TSCORE(dataframe$CBCL_CHILD_GENDER, dataframe$CBCL_CHILD_AGE_CAT, dataframe$CBCL_AGGRESSIVE_TOT) #uses CBCL_ASR_subscale_tscores_funcs
   
   
   # calculates only if no more than 8 items are missing 
@@ -179,11 +189,17 @@ CBCL_scoring_SB <- function(dataframe,t_score_table){
   
   # Other Problems, i.e. those that do not fit into internalizing/externalizing categories (Includes Social Problems, Thought Problems, and Attention Problems items); necessary to calculate Total Problems
   CBCL_social_probs_all <- attach_q_prefix('CBCL',c(11,12,25,27,34,36,38,48,62,64,79))
-  dataframe$CBCL_SOC_PROB <- rowSums(dataframe[,CBCL_social_probs_all],na.rm = TRUE)
+  dataframe$CBCL_SOC_PROB_TOT <- rowSums(dataframe[,CBCL_social_probs_all],na.rm = TRUE)
+  ###Get CBCL Social Problem scale T-score
+  dataframe$CBCL_SOC_PROB_TSCORE <- CBCL_SOC_PROB_TSCORE(dataframe$CBCL_CHILD_GENDER, dataframe$CBCL_CHILD_AGE_CAT, dataframe$CBCL_SOC_PROB_TOT) #uses CBCL_ASR_subscale_tscores_funcs
   CBCL_thought_probs_all <- attach_q_prefix('CBCL',c(9,18,40,46,58,59,60,66,70,76,83,84,85,92,100))
-  dataframe$CBCL_THOUGHT_PROB <- rowSums(dataframe[,CBCL_thought_probs_all],na.rm = TRUE)
+  dataframe$CBCL_THOUGHT_PROB_TOT <- rowSums(dataframe[,CBCL_thought_probs_all],na.rm = TRUE)
+  ###Get CBCL Thought Problem scale T-score
+  dataframe$CBCL_THOUGHT_PROB_TSCORE <- CBCL_THOUGHT_PROB_TSCORE(dataframe$CBCL_CHILD_GENDER, dataframe$CBCL_CHILD_AGE_CAT, dataframe$CBCL_THOUGHT_PROB_TOT) #uses CBCL_ASR_subscale_tscores_funcs
   CBCL_attention_probs_all <- attach_q_prefix('CBCL',c(1,4,8,10,13,17,41,61,78,80))
-  dataframe$CBCL_ATTN_PROB <- rowSums(dataframe[,CBCL_attention_probs_all],na.rm = TRUE)
+  dataframe$CBCL_ATTN_PROB_TOT <- rowSums(dataframe[,CBCL_attention_probs_all],na.rm = TRUE)
+  ###Get CBCL Attention Problem scale T-score
+  dataframe$CBCL_ATTN_PROB_TSCORE <- CBCL_ATTN_PROB_TSCORE(dataframe$CBCL_CHILD_GENDER, dataframe$CBCL_CHILD_AGE_CAT, dataframe$CBCL_ATTN_PROB_TOT) #uses CBCL_ASR_subscale_tscores_funcs
   CBCL_other_problems_all <- attach_q_prefix('CBCL',c(6,7,15,24,44,53,55,'56_H',74,77,93,98,107,108,109,110,'113_A','113_B','113_C'))
   dataframe$CBCL_OTHER_PROBLEMS <- rowSums(dataframe[,CBCL_other_problems_all],na.rm = TRUE)
   
@@ -211,10 +227,15 @@ CBCL_scoring_SB <- function(dataframe,t_score_table){
     min_rows <- which(tscores_table[,which(colnames(tscores_table)==max_colname)] >= total_score)
     max_rows <- which(tscores_table[,which(colnames(tscores_table)==min_colname)] <= total_score)
     row_ind <- min_rows[min_rows %in% max_rows]
+    #row_ind <- which(which(tscores_table[,which(colnames(tscores_table)==max_colname)] >= total_score) %in% which(tscores_table[,which(colnames(tscores_table)==min_colname)] <= total_score))    # if total score is greater than min and lower than max (based on gender & age group), give it the corresponding T score
     if(!identical(row_ind, integer(0))){
       T_score <- tscores_table$T[row_ind]
     } else {
       T_score <- NA
+      #print(paste("Total score value of ", total_score, " does not exsit for this subject, please check", sep=""))
+      #print(paste(scale_tag, T_score, sep = " "))
+      #print(curr_gender)
+      #print(total_score)
     }
     return(T_score)
   }
@@ -228,6 +249,7 @@ CBCL_scoring_SB <- function(dataframe,t_score_table){
   for(curr_scale_tag in scale_tag_list){
     # any participant that did not complete the CBCL, change all of their scored values to NA
     for (each_row in 1:nrow(dataframe)) { 
+      #print(paste("each row ",each_row,sep=""))
       if (dataframe$Age[each_row] < 18) {
         if (dataframe$Age[each_row] >= 6 && dataframe$Age[each_row] < 12){
           curr_min_age<- 6
@@ -237,7 +259,7 @@ CBCL_scoring_SB <- function(dataframe,t_score_table){
           curr_max_age<-18
         } 
         dataframe[each_row,paste("CBCL", toupper(curr_scale_tag),"TSCORE", sep="_")] <- get_t_score_from_table(curr_min_age, curr_max_age, 
-                                                                                                                  curr_scale_tag, dataframe$Gender[each_row], 
+                                                                                                                  curr_scale_tag, dataframe$Sex[each_row], 
                                                                                                                   dataframe[each_row,paste("CBCL", toupper(curr_scale_tag),"TOTAL", sep="_")], 
                                                                                                                   CBCL_t_score_table)
       }
