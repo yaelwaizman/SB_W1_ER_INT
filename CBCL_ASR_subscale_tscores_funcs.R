@@ -1,5 +1,6 @@
 ########################################################################################## 
 #Gets ASR Friends scale T-score based on participant gender and Friends scale total score 
+#Created by Emilia Ninova
 ########################################################################################## 
 ASR_FRIENDS_TSCORE <- function(gender, total_score) {
   
@@ -82,43 +83,30 @@ T_score = ifelse(gender == 1 & total_score == -8, 20,
 ####################################################################################### 
 ASR_FAMILY_TSCORE <- function(gender, mean_score) {
 
-# First, rounds ASR Family scale total to the nearest .2   
-ASR_FAMILY_MEAN = ifelse(mean_score >= 0 & mean_score < .10, 0,
-                 ifelse(mean_score >= .11 & mean_score <= .30, 0.2,
-                 ifelse(mean_score >= .31 & mean_score <= .50, 0.4,
-                 ifelse(mean_score >= .51 & mean_score <= .70, 0.6,       
-                 ifelse(mean_score >= .71 & mean_score <= .90, 0.8,
-                 ifelse(mean_score >= .91 & mean_score <= 1.10, 1.0,
-                 ifelse(mean_score >= 1.11 & mean_score <= 1.30, 1.2,
-                 ifelse(mean_score >= 1.31 & mean_score <= 1.50, 1.4,
-                 ifelse(mean_score >= 1.51 & mean_score <= 1.70, 1.6,
-                 ifelse(mean_score >= 1.71 & mean_score <= 1.90, 1.8,
-                 ifelse(mean_score >= 1.91 & mean_score <= 2.00, 2.0, 666)))))))))))
-
 # Then, gets t-score based on mean score 
-T_score = ifelse(gender == 1 & ASR_FAMILY_MEAN == 0, 20, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 0.2, 23, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 0.4, 27, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 0.6, 30, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 0.8, 33, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 1.0, 38, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 1.2, 41, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 1.4, 44, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 1.6, 48, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 1.8, 51, 
-          ifelse(gender == 1 & ASR_FAMILY_MEAN == 2.0, 57, 
+T_score = ifelse(gender == 1 & mean_score == 0.0, 20, 
+          ifelse(gender == 1 & mean_score == 0.2, 23, 
+          ifelse(gender == 1 & mean_score == 0.4, 27, 
+          ifelse(gender == 1 & mean_score == 0.6, 30, 
+          ifelse(gender == 1 & mean_score == 0.8, 33, 
+          ifelse(gender == 1 & mean_score == 1.0, 38, 
+          ifelse(gender == 1 & mean_score == 1.2, 41, 
+          ifelse(gender == 1 & mean_score == 1.4, 44, 
+          ifelse(gender == 1 & mean_score == 1.6, 48, 
+          ifelse(gender == 1 & mean_score == 1.8, 51, 
+          ifelse(gender == 1 & mean_score == 2.0, 57, 
                                                                                                                
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 0, 20, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 0.2, 23, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 0.4, 25, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 0.6, 28, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 0.8, 30, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 1.0, 36, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 1.2, 41, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 1.4, 44, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 1.6, 48, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 1.8, 52, 
-          ifelse(gender == 2 & ASR_FAMILY_MEAN == 2.0, 58,  666))))))))))))))))))))))
+          ifelse(gender == 2 & mean_score == 0.0, 20, 
+          ifelse(gender == 2 & mean_score == 0.2, 23, 
+          ifelse(gender == 2 & mean_score == 0.4, 25, 
+          ifelse(gender == 2 & mean_score == 0.6, 28, 
+          ifelse(gender == 2 & mean_score == 0.8, 30, 
+          ifelse(gender == 2 & mean_score == 1.0, 36, 
+          ifelse(gender == 2 & mean_score == 1.2, 41, 
+          ifelse(gender == 2 & mean_score == 1.4, 44, 
+          ifelse(gender == 2 & mean_score == 1.6, 48, 
+          ifelse(gender == 2 & mean_score == 1.8, 52, 
+          ifelse(gender == 2 & mean_score == 2.0, 58,  666))))))))))))))))))))))
 
 }
 
@@ -310,7 +298,7 @@ return(T_score_range)
 #Gets ASR Anxious/Depressed scale T-score based on participant gender and total score 
 ##############################################################################################  
 
-ASR_ANXIOUS_DEPRESSED_TSCORE <- function(gender, total_score) {
+ASR_ANX_DEP_TSCORE <- function(gender, total_score) {
   
   T_score_male = ifelse(gender == 1 & total_score >= 0 & total_score <= 3, 50,
             ifelse(gender == 1 & total_score == 4, 51, 
@@ -345,9 +333,9 @@ ASR_ANXIOUS_DEPRESSED_TSCORE <- function(gender, total_score) {
             ifelse(gender == 1 & total_score == 33, 95,
             ifelse(gender == 1 & total_score == 34, 96,
             ifelse(gender == 1 & total_score == 35, 98, 
-            ifelse(gender == 1 & total_score == 36, 100, 666))))))))))))))))))))))))))))))))))
+            ifelse(gender == 1 & total_score == 36, 100, NA))))))))))))))))))))))))))))))))))
 
-  T_score_female = ifelse(gender == 2 & total_score >= 0 & total_score <= 4, 50,
+    T_score_female <- ifelse(gender == 2 & total_score >= 0 & total_score <= 4, 50,
             ifelse(gender == 2 & total_score == 5, 51, 
             ifelse(gender == 2 & total_score == 6, 52, 
             ifelse(gender == 2 & total_score == 7, 53, 
@@ -379,7 +367,12 @@ ASR_ANXIOUS_DEPRESSED_TSCORE <- function(gender, total_score) {
             ifelse(gender == 2 & total_score == 33, 94,
             ifelse(gender == 2 & total_score == 34, 96,
             ifelse(gender == 2 & total_score == 35, 98, 
-            ifelse(gender == 2 & total_score == 36, 100,  666)))))))))))))))))))))))))))))))))
+            ifelse(gender == 2 & total_score == 36, 100, NA)))))))))))))))))))))))))))))))))
+  
+    T_score = T_score_male
+    T_score[!is.na(T_score_female)] = T_score_female[!is.na(T_score_female)] # this and previous line merge the two variables that are storing male and female t-scores into one 
+    # above two lines are used to avoid a really long series of ifelse statements that R cannot execute at once
+    return(T_score)
 }
 
 
@@ -427,13 +420,18 @@ ASR_WITHDRAWN_TSCORE <- function(gender, total_score) {
             ifelse(gender == 2 & total_score == 16, 93, 
             ifelse(gender == 2 & total_score == 17, 97, 
             ifelse(gender == 2 & total_score == 18, 100,  666))))))))))))))))))))))))))))))))))))
+  
+  #T_score = T_score_male
+  #T_score[!is.na(T_score_female)] = T_score_female[!is.na(T_score_female)] # this and previous line merge the two variables that are storing male and female t-scores into one 
+  # above two lines are used to avoid a really long series of ifelse statements that R cannot execute at once
+  return(T_score)
 }
 
 ##############################################################################################  
 #Gets ASR Somatic scale T-score based on participant gender and total score 
 ##############################################################################################  
 
-ASR_SOMATIC_TSCORE <- function(gender, total_score) {
+ASR_SOM_TSCORE <- function(gender, total_score) {
   
   T_score_male = ifelse(gender == 1 & total_score == 0, 50,
             ifelse(gender == 1 & total_score == 1, 51,
@@ -459,7 +457,7 @@ ASR_SOMATIC_TSCORE <- function(gender, total_score) {
             ifelse(gender == 1 & total_score == 21, 94, 
             ifelse(gender == 1 & total_score == 22, 96, 
             ifelse(gender == 1 & total_score == 23, 98,
-            ifelse(gender == 1 & total_score == 24, 100, 666))))))))))))))))))))))))) 
+            ifelse(gender == 1 & total_score == 24, 100, NA))))))))))))))))))))))))) 
 
   T_score_female = ifelse(gender == 2 & total_score >= 0 & total_score <= 1, 50,
             ifelse(gender == 2 & total_score == 2, 51,
@@ -484,14 +482,19 @@ ASR_SOMATIC_TSCORE <- function(gender, total_score) {
             ifelse(gender == 2 & total_score == 21, 93, 
             ifelse(gender == 2 & total_score == 22, 95, 
             ifelse(gender == 2 & total_score == 23, 98,
-            ifelse(gender == 2 & total_score == 24, 100,  666))))))))))))))))))))))))
+            ifelse(gender == 2 & total_score == 24, 100, NA))))))))))))))))))))))))
+  
+  T_score = T_score_male
+  T_score[!is.na(T_score_female)] = T_score_female[!is.na(T_score_female)] # this and previous line merge the two variables that are storing male and female t-scores into one 
+  # above two lines are used to avoid a really long series of ifelse statements that R cannot execute at once
+  return(T_score)
 }
 
 ##############################################################################################  
 #Gets ASR Thought scale T-score based on participant gender and total score 
 ##############################################################################################  
 
-ASR_THOUGHT_TSCORE <- function(gender, total_score) {
+ASR_THOUGHT_PROB_TSCORE <- function(gender, total_score) {
   
   T_score_male = ifelse(gender == 1 & total_score >= 0 & total_score <= 1, 50,
             ifelse(gender == 1 & total_score == 2, 52,
@@ -512,7 +515,7 @@ ASR_THOUGHT_TSCORE <- function(gender, total_score) {
             ifelse(gender == 1 & total_score == 17, 93, 
             ifelse(gender == 1 & total_score == 18, 95, 
             ifelse(gender == 1 & total_score == 19, 98, 
-            ifelse(gender == 1 & total_score == 20, 100, 666))))))))))))))))))))   
+            ifelse(gender == 1 & total_score == 20, 100, NA))))))))))))))))))))   
 
   T_score_female = ifelse(gender == 2 & total_score >= 0 & total_score <= 1, 50,
             ifelse(gender == 2 & total_score == 2, 51,
@@ -533,14 +536,19 @@ ASR_THOUGHT_TSCORE <- function(gender, total_score) {
             ifelse(gender == 2 & total_score == 17, 93, 
             ifelse(gender == 2 & total_score == 18, 95, 
             ifelse(gender == 2 & total_score == 19, 98, 
-            ifelse(gender == 2 & total_score == 20, 100,  666))))))))))))))))))))
+            ifelse(gender == 2 & total_score == 20, 100, NA))))))))))))))))))))
+  
+  T_score = T_score_male
+  T_score[!is.na(T_score_female)] = T_score_female[!is.na(T_score_female)] # this and previous line merge the two variables that are storing male and female t-scores into one 
+  # above two lines are used to avoid a really long series of ifelse statements that R cannot execute at once
+  return(T_score)
 }
 
 ##############################################################################################  
 #Gets ASR Attention Problems scale T-score based on participant gender and total score 
 ##############################################################################################  
 
-ASR_ATTENTION_TSCORE <- function(gender, total_score) {
+ASR_ATTN_PROB_TSCORE <- function(gender, total_score) {
   
   T_score_male = ifelse(gender == 1 & total_score >= 0 & total_score <= 2, 50,
             ifelse(gender == 1 & total_score == 3, 51,
@@ -570,7 +578,7 @@ ASR_ATTENTION_TSCORE <- function(gender, total_score) {
             ifelse(gender == 1 & total_score == 27, 92,
             ifelse(gender == 1 & total_score == 28, 95,
             ifelse(gender == 1 & total_score == 29, 97,
-            ifelse(gender == 1 & total_score == 30, 100, 666))))))))))))))))))))))))))))) 
+            ifelse(gender == 1 & total_score == 30, 100, NA))))))))))))))))))))))))))))) 
 
   T_score_female = ifelse(gender == 2 & total_score >= 0 & total_score <= 4, 50,
             ifelse(gender == 2 & total_score == 5, 51, 
@@ -598,7 +606,12 @@ ASR_ATTENTION_TSCORE <- function(gender, total_score) {
             ifelse(gender == 2 & total_score == 27, 94,
             ifelse(gender == 2 & total_score == 28, 96,
             ifelse(gender == 2 & total_score == 29, 98,
-            ifelse(gender == 2 & total_score == 30, 100,  666)))))))))))))))))))))))))))
+            ifelse(gender == 2 & total_score == 30, 100, NA)))))))))))))))))))))))))))
+  
+  T_score = T_score_male
+  T_score[!is.na(T_score_female)] = T_score_female[!is.na(T_score_female)] # this and previous line merge the two variables that are storing male and female t-scores into one 
+  # above two lines are used to avoid a really long series of ifelse statements that R cannot execute at once
+  return(T_score)
 }
 
 
@@ -606,7 +619,7 @@ ASR_ATTENTION_TSCORE <- function(gender, total_score) {
 #Gets ASR Aggressive Behavior T-score based on participant gender and total score 
 ##############################################################################################  
 
-ASR_AGGRESIVE_TSCORE <- function(gender, total_score) {
+ASR_AGGRESSIVE_TSCORE <- function(gender, total_score) {
   
   T_score_male = ifelse(gender == 1 & total_score >= 0 & total_score <= 2, 50,
             ifelse(gender == 1 & total_score == 3, 51,
@@ -636,7 +649,7 @@ ASR_AGGRESIVE_TSCORE <- function(gender, total_score) {
             ifelse(gender == 1 & total_score == 27, 93,
             ifelse(gender == 1 & total_score == 28, 95,
             ifelse(gender == 1 & total_score == 29, 98,
-            ifelse(gender == 1 & total_score == 30, 100, 666)))))))))))))))))))))))))))))  
+            ifelse(gender == 1 & total_score == 30, 100, NA)))))))))))))))))))))))))))))  
                                                                                                                                                                                                                        
   T_score_female = ifelse(gender == 2 & total_score >= 0 & total_score <= 2, 50,
             ifelse(gender == 2 & total_score == 3, 51,
@@ -666,7 +679,12 @@ ASR_AGGRESIVE_TSCORE <- function(gender, total_score) {
             ifelse(gender == 2 & total_score == 27, 93,
             ifelse(gender == 2 & total_score == 28, 95,
             ifelse(gender == 2 & total_score == 29, 98,
-            ifelse(gender == 2 & total_score == 30, 100,  666)))))))))))))))))))))))))))))
+            ifelse(gender == 2 & total_score == 30, 100, NA)))))))))))))))))))))))))))))
+  
+  T_score = T_score_male
+  T_score[!is.na(T_score_female)] = T_score_female[!is.na(T_score_female)] # this and previous line merge the two variables that are storing male and female t-scores into one 
+  # above two lines are used to avoid a really long series of ifelse statements that R cannot execute at once
+  return(T_score)
 }
 
 
@@ -674,7 +692,7 @@ ASR_AGGRESIVE_TSCORE <- function(gender, total_score) {
 #Gets ASR Rule-Breaking Behavior T-score based on participant gender and total score 
 ##############################################################################################  
 
-ASR_RULEBREAK_TSCORE <- function(gender, total_score) { 
+ASR_RULE_BREAKING_TSCORE <- function(gender, total_score) { 
   
   T_score_male = ifelse(gender == 1 & total_score >= 0 & total_score <= 1, 50,
             ifelse(gender == 1 & total_score == 2, 51,
@@ -703,7 +721,7 @@ ASR_RULEBREAK_TSCORE <- function(gender, total_score) {
             ifelse(gender == 1 & total_score == 25, 94,
             ifelse(gender == 1 & total_score == 26, 96,
             ifelse(gender == 1 & total_score == 27, 98,
-            ifelse(gender == 1 & total_score == 28, 100, 666)))))))))))))))))))))))))))) 
+            ifelse(gender == 1 & total_score == 28, 100, NA)))))))))))))))))))))))))))) 
                    
   T_score_female = ifelse(gender == 2 & total_score == 0, 50,       
             ifelse(gender == 2 & total_score == 1, 51, 
@@ -733,7 +751,12 @@ ASR_RULEBREAK_TSCORE <- function(gender, total_score) {
             ifelse(gender == 2 & total_score == 25, 95,
             ifelse(gender == 2 & total_score == 26, 97,
             ifelse(gender == 2 & total_score == 27, 98,
-            ifelse(gender == 2 & total_score == 28, 100, 666)))))))))))))))))))))))))))))
+            ifelse(gender == 2 & total_score == 28, 100, NA)))))))))))))))))))))))))))))
+  
+  T_score = T_score_male
+  T_score[!is.na(T_score_female)] = T_score_female[!is.na(T_score_female)] # this and previous line merge the two variables that are storing male and female t-scores into one 
+  # above two lines are used to avoid a really long series of ifelse statements that R cannot execute at once
+  return(T_score)
   }
 
 ##############################################################################################  
@@ -753,7 +776,7 @@ ASR_INTRUSIVE_TSCORE <- function(gender, total_score) {
             ifelse(gender == 1 & total_score == 9, 73, 
             ifelse(gender == 1 & total_score == 10, 75, 
             ifelse(gender == 1 & total_score == 11, 78, 
-            ifelse(gender == 1 & total_score == 12, 80, 666))))))))))))
+            ifelse(gender == 1 & total_score == 12, 80, NA))))))))))))
                                                                                        
   T_score_female = ifelse(gender == 2 & total_score >= 0 & total_score <= 1, 50,
             ifelse(gender == 2 & total_score == 2, 51,
@@ -766,8 +789,12 @@ ASR_INTRUSIVE_TSCORE <- function(gender, total_score) {
             ifelse(gender == 2 & total_score == 9, 73, 
             ifelse(gender == 2 & total_score == 10, 75,
             ifelse(gender == 2 & total_score == 11, 78,
-            ifelse(gender == 2 & total_score == 12, 80, 666))))))))))))
-                                                            
+            ifelse(gender == 2 & total_score == 12, 80, NA))))))))))))
+  
+  T_score = T_score_male
+  T_score[!is.na(T_score_female)] = T_score_female[!is.na(T_score_female)] # this and previous line merge the two variables that are storing male and female t-scores into one 
+  # above two lines are used to avoid a really long series of ifelse statements that R cannot execute at once
+  return(T_score)                                                          
 }
 
 
@@ -1133,7 +1160,7 @@ return(T_score)
 #Gets CBCL Anxious/Depressed T-score based on gender, age, and total score 
 ###################################################################################################################################
 
-CBCL_ANXIOUS_DEPRESSED_TSCORE <- function(gender, age, total_score) {
+CBCL_ANX_DEP_TSCORE <- function(gender, age, total_score) {
 
 # Use total score to get t-score for each gender and age group
   T_score_male_6_11 = ifelse(gender == 1 & age == 1 & total_score >= 0 & total_score <= 1, 50,
@@ -1356,7 +1383,7 @@ return(T_score)
 #Gets CBCL Somatic T-score based on gender, age, and total score 
 ###################################################################################################################################
 
-CBCL_SOMATIC_TSCORE <- function(gender, age, total_score) {
+CBCL_SOM_TSCORE <- function(gender, age, total_score) {
 
 # Use total score to get t-score for each gender and age group
 T_score_male_6_11 = ifelse(gender == 1 & age == 1 & total_score == 0, 50,
@@ -1474,7 +1501,7 @@ return(T_score)
 #Gets CBCL Social Problems T-score based on gender, age, and total score 
 ###################################################################################################################################
 
-CBCL_SOCIALPROBS_TSCORE <- function(gender, age, total_score) {
+CBCL_SOC_PROB_TSCORE <- function(gender, age, total_score) {
 
 # Use total score to get t-score for each gender and age group
 T_score_male_6_11 = ifelse(gender == 1 & age == 1 & total_score == 0, 50,
@@ -1592,7 +1619,7 @@ return(T_score)
 #Gets CBCL Thought Problems T-score based on gender, age, and total score 
 ###################################################################################################################################
 
-CBCL_THOUGHTPROBS_TSCORE <- function(gender, age, total_score) {
+CBCL_THOUGHT_PROB_TSCORE <- function(gender, age, total_score) {
 
 # Use total score to get t-score for each gender and age group
 T_score_male_6_11 = ifelse(gender == 1 & age == 1 & total_score == 0, 50,
@@ -1742,7 +1769,7 @@ return(T_score)
 #Gets CBCL Attention Problems T-score based on gender, age, and total score 
 ###################################################################################################################################
 
-CBCL_ATTPROBS_TSCORE <- function(gender, age, total_score) {
+CBCL_ATTN_PROB_TSCORE <- function(gender, age, total_score) {
 
 # Use total score to get t-score for each gender and age group
 T_score_male_6_11 =   ifelse(gender == 1 & age == 1 & total_score >= 0 & total_score <= 1, 50,
@@ -1850,7 +1877,7 @@ return(T_score)
 #Gets CBCL Rule-Breaking Behavior T-score based on gender, age, and total score 
 ###################################################################################################################################
 
-CBCL_RULE_TSCORE <- function(gender, age, total_score) {
+CBCL_RULE_BREAKING_TSCORE <- function(gender, age, total_score) {
 
 # Use total score to get t-score for each gender and age group
 T_score_male_6_11 = ifelse(gender == 1 & age == 1 & total_score == 0, 50,
