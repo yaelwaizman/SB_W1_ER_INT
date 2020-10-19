@@ -61,14 +61,19 @@ alpha(SB_all_scored[,paste('CBCL_',c(47,49,51,54,'56_A','56_B','56_C','56_D','56
 ####################################################  
 
 # select the data that will be used in analyses
-data <- select(SB_all_scored, SUB_ID, Age, Group, Gender, Ethnicity, Inst_dur, Parental_education, ERQ_Supp_TOTAL, ERQ_Reapp_TOTAL, CBCL_INT_TSCORE)
+data <- select(SB_all_scored, SUB_ID, Age, Group, Sex, Ethnicity, Inst_dur, Parental_education, ERQ_Supp_TOTAL, ERQ_Reapp_TOTAL, CBCL_INT_TSCORE)
 
 # code Males as 0 and Females as 1
-data$Gender[which(data$Gender == "M")] <- 0
-data$Gender[which(data$Gender == "F")] <- 1
+data$Sex[which(data$Sex == "M")] <- 0
+data$Sex[which(data$Sex == "F")] <- 1
 
 # create mean-centered Expressive Suppression scores across entire sample
 data$Supp_mc <- data$ERQ_Supp_TOTAL - mean(data$ERQ_Supp_TOTAL)
+# create mean-centered Cognitive Reappraisal scores across entire sample
+data$Reapp_mc <- data$ERQ_Reapp_TOTAL - mean(data$ERQ_Reapp_TOTAL)
+# create mean-centered Age variable across entire sample
+data$Age_mc <- data$Age - mean(data$Age)
+
 
 # save the scored data
 write.csv(data, file.path(project_path,"scored_ER_INT_data.csv"), row.names=FALSE) 
@@ -84,18 +89,32 @@ PIs <- filter(data, Group == 1)
 ####################################################  
 
 # H1: PI status will predict internalizing symptoms. 
-H1 <- lm(CBCL_INT_TSCORE ~ Group + Gender, data)
+H1 <- lm(CBCL_INT_TSCORE ~ Group + Sex, data)
 summary(H1)
 
 # H2: Expressive suppression usage will be positively associated with internalizing symptoms across both PI and comparison groups.
 cor.test(PIs$ERQ_Supp_TOTAL, PIs$CBCL_INT_TSCORE) #PI group only
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex , PIs)) #PI group only controlling for sex
 cor.test(comparisons$ERQ_Supp_TOTAL, comparisons$CBCL_INT_TSCORE) #Comparison group only
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex , comparisons)) #Comparison group only controlling for sex
 cor.test(data$ERQ_Supp_TOTAL, data$CBCL_INT_TSCORE) #across entire sample
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex , data)) #across entire sample controlling for sex
 
 # H3: Cognitive reappraisal usage will be negatively associated with internalizing symptoms across both the PI and comparison groups.
 cor.test(PIs$ERQ_Reapp_TOTAL, PIs$CBCL_INT_TSCORE) #PI group only
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex , PIs)) #PI group only controlling for sex
 cor.test(comparisons$ERQ_Reapp_TOTAL, comparisons$CBCL_INT_TSCORE) #Comparison group only
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex , comparisons)) #Comparison group only controlling for sex
 cor.test(data$ERQ_Reapp_TOTAL, data$CBCL_INT_TSCORE) #across entire sample
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex , data)) #across entire sample controlling for sex
+
+# H4: Suppression usage will moderate (exacerbate) the effects of prior institutionalization on internalizing symptoms. 
+summary(lm(CBCL_INT_TSCORE ~ Group* ERQ_Supp_TOTAL+Sex, data))
+
+
+# H5: 
+
+
 
 ##### Exploratory Analyses
 
@@ -119,11 +138,11 @@ t.test(PIs$CBCL_INT_TSCORE, comparisons$CBCL_INT_TSCORE) # Group differences for
 describe(PIs) # Descriptive Statistics for PI youth
 describe(comparisons) # Descriptive Statistics for Comparison youth
 
-##### Gender count per group
-PI_female_n <- length(which(PIs$Gender == 1)) # number of female participants in PI group 
-PI_female_percent <- (PI_female_n/length(PIs$Gender))*100 # percent of female participants in PI group 
-comparisons_female_n <- length(which(comparisons$Gender == 1)) # number of female participants in Comparison group 
-comparisons_female_percent <- (comparisons_female_n/length(comparisons$Gender))*100 # percent of female participants in Comparison group
+##### Sex count per group
+PI_female_n <- length(which(PIs$Sex == 1)) # number of female participants in PI group 
+PI_female_percent <- (PI_female_n/length(PIs$Sex))*100 # percent of female participants in PI group 
+comparisons_female_n <- length(which(comparisons$Sex == 1)) # number of female participants in Comparison group 
+comparisons_female_percent <- (comparisons_female_n/length(comparisons$Sex))*100 # percent of female participants in Comparison group
 
 ##### Ethnicity count per group
 
