@@ -15,7 +15,7 @@ library(dplyr)
 library(psych)
 
 # set project path
-project_path <- file.path("~","Desktop", "ER_INT_project")
+project_path <- file.path("~","Desktop", "SB_W1_ER_INT")
 # read the all_ages+caregiver child clean questionnaire data file
 SB_all_scored <- read_csv(file.path(project_path,"SB_AllAges+CaregiverChild_Questionnaires_CLEANMasterCopy.csv"))
 SB_all_scored <- as.data.frame(SB_all_scored) #set as a dataframe
@@ -74,7 +74,6 @@ data$Reapp_mc <- data$ERQ_Reapp_TOTAL - mean(data$ERQ_Reapp_TOTAL)
 # create mean-centered Age variable across entire sample
 data$Age_mc <- data$Age - mean(data$Age)
 
-
 # save the scored data
 write.csv(data, file.path(project_path,"scored_ER_INT_data.csv"), row.names=FALSE) 
 
@@ -89,36 +88,38 @@ PIs <- filter(data, Group == 1)
 ####################################################  
 
 # H1: PI status will predict internalizing symptoms. 
-H1 <- lm(CBCL_INT_TSCORE ~ Group + Sex, data)
+H1 <- lm(CBCL_INT_TSCORE ~ Group + Sex + Age, data) #controling for sex and age
 summary(H1)
 
 # H2: Expressive suppression usage will be positively associated with internalizing symptoms across both PI and comparison groups.
 cor.test(PIs$ERQ_Supp_TOTAL, PIs$CBCL_INT_TSCORE) #PI group only
-summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex , PIs)) #PI group only controlling for sex
-cor.test(comparisons$ERQ_Supp_TOTAL, comparisons$CBCL_INT_TSCORE) #Comparison group only
-summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex , comparisons)) #Comparison group only controlling for sex
-cor.test(data$ERQ_Supp_TOTAL, data$CBCL_INT_TSCORE) #across entire sample
-summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex , data)) #across entire sample controlling for sex
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex + Age, PIs)) # PI group only controlling for sex and age
+cor.test(comparisons$ERQ_Supp_TOTAL, comparisons$CBCL_INT_TSCORE) # Comparison group only
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex + Age, comparisons)) # Comparison group only controlling for sex and age
+cor.test(data$ERQ_Supp_TOTAL, data$CBCL_INT_TSCORE) # across entire sample
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Supp_TOTAL + Sex +Age, data)) # across entire sample controlling for sex and age
 
 # H3: Cognitive reappraisal usage will be negatively associated with internalizing symptoms across both the PI and comparison groups.
 cor.test(PIs$ERQ_Reapp_TOTAL, PIs$CBCL_INT_TSCORE) #PI group only
-summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex , PIs)) #PI group only controlling for sex
-cor.test(comparisons$ERQ_Reapp_TOTAL, comparisons$CBCL_INT_TSCORE) #Comparison group only
-summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex , comparisons)) #Comparison group only controlling for sex
-cor.test(data$ERQ_Reapp_TOTAL, data$CBCL_INT_TSCORE) #across entire sample
-summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex , data)) #across entire sample controlling for sex
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex + Age , PIs)) # PI group only controlling for sex
+cor.test(comparisons$ERQ_Reapp_TOTAL, comparisons$CBCL_INT_TSCORE) # Comparison group only
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex + Age, comparisons)) # Comparison group only controlling for sex
+cor.test(data$ERQ_Reapp_TOTAL, data$CBCL_INT_TSCORE) # across entire sample
+summary(lm(CBCL_INT_TSCORE ~ ERQ_Reapp_TOTAL + Sex + Age, data)) # across entire sample controlling for sex
 
 # H4: Suppression usage will moderate (exacerbate) the effects of prior institutionalization on internalizing symptoms. 
-summary(lm(CBCL_INT_TSCORE ~ Group* ERQ_Supp_TOTAL+Sex, data))
+summary(lm(CBCL_INT_TSCORE ~ Group* Supp_mc+Sex+Age_mc, data)) # done to replicate moderation findings in SPSS as advised by reviewer 2
 
-
-# H5: 
-
+# H5: Reappraisal usage will attenuate (moderate) the effects of prior institutionalization on internalizing symptoms. 
+summary(lm(CBCL_INT_TSCORE ~ Group* Reapp_mc+Sex+Age_mc, data)) # done to replicate moderation findings in SPSS as advised by reviewer 2
 
 
 ##### Exploratory Analyses
 
-# Q2: Is age associated with the usage of an emotion regulation strategy? If so, does this relationship differ for PI versus comparison youth? 
+# Q1: Does use of expressive suppression explain links between institutional caregiving and elevated internalizing symptoms (exploratory path/mediation analyses)? 
+summary(lm(CBCL_INT_TSCORE ~ Group+Supp_mc+Sex+Age_mc, data)) # done to replicate mediation findings in SPSS as advised by reviewer 2
+
+# Q2: Is age associated with the usage of an emotion regulation strategy? If so, does this relationship differ for PI versus comparison youth?
 cor.test(PIs$ERQ_Supp_TOTAL, PIs$Age) #PI group only
 cor.test(comparisons$ERQ_Supp_TOTAL, comparisons$Age) #Comparison group only
 cor.test(data$ERQ_Supp_TOTAL, data$Age) #across entire sample
@@ -126,6 +127,13 @@ cor.test(data$ERQ_Supp_TOTAL, data$Age) #across entire sample
 # Q3: Is the duration of institutional care associated with the usage of an emotion regulation strategy or internalizing symptoms?
 cor.test(PIs$ERQ_Supp_TOTAL, PIs$Inst_dur) #Expressive Suppression and Institutionalization Duration
 cor.test(PIs$CBCL_INT_TSCORE, PIs$Inst_dur) #Internalizing Symptoms and Institutionalization Duration
+
+# Q4: Is the average reported use of expressive suppression and cognitive reappraisal in our PI and comparison groups similar to previous published norms of similar age groups? 
+t.test(comparisons$ERQ_Reapp_TOTAL, mu = 21.53) # Difference between comparison group reappraisal usage and previously published reappraisal norms
+t.test(PIs$ERQ_Reapp_TOTAL, mu = 21.53) # Difference between PI group reappraisal usage and previously published reappraisal norms
+t.test(comparisons$ERQ_Supp_TOTAL, mu = 10.49) # Difference between comparison group suppression usage and previously published suppression norms
+t.test(PIs$ERQ_Supp_TOTAL, mu = 10.49) # Difference between PI group suppression usage and previously published suppression norms
+
 
 ####################################################  
 # Supplemental Material Table S1
