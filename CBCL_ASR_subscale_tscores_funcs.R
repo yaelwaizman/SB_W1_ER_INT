@@ -1,6 +1,6 @@
 ########################################################################################## 
 #Gets ASR Friends scale T-score based on participant gender and Friends scale total score 
-#Created by Emilia Ninova
+#Created by Emilia Ninova and Yael Waizman
 ########################################################################################## 
 ASR_FRIENDS_TSCORE <- function(gender, total_score) {
   
